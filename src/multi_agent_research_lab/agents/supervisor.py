@@ -23,6 +23,8 @@ class SupervisorAgent(BaseAgent):
             state.record_route("analyst")
         elif not state.final_answer:
             state.record_route("writer")
+        elif "critic" not in state.route_history:
+            state.record_route("critic")
         else:
             state.record_route("__end__")
             
