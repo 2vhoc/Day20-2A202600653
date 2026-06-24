@@ -16,3 +16,13 @@ Trong mô hình Multi-Agent (như LangGraph), một lỗi rất phổ biến là
 **Cách Fix:**
 1. **Hard-limit Iterations**: Trong file `state.py`, thêm biến `iteration` để đếm số bước. Trong `supervisor.py`, luôn kiểm tra `if state.iteration >= 10: return "__end__"` trước khi đưa ra quyết định khác.
 2. **Logic Check chặt chẽ**: Supervisor định tuyến dựa trên các giá trị có trong State (`if not state.research_notes: ...`). Do đó các worker phải cam kết trả về giá trị (dù là rỗng hay báo lỗi) thay vì crash giữa chừng.
+
+## 3. Ví dụ Output thực tế (Trích đoạn)
+
+### Single-Agent Baseline
+> "GraphRAG has matured from a proof‑of‑concept in 2023 to a robust, production‑ready architecture that couples dense retrieval, graph‑structured reasoning, and LLM generation. The state‑of‑the‑art pipeline leverages hybrid text‑graph construction, graph‑aware reranking (GraphBERT‑Rerank, Diffusion‑RAG), and grounding mechanisms..."
+*(Sinh ra trực tiếp từ kiến thức có sẵn của mô hình)*
+
+### Multi-Agent System
+> "GraphRAG extracts **entity‑relation triples** from a corpus, stores them in a **knowledge graph (KG)**, and performs **graph‑aware retrieval** before prompting the LLM. This design gives the system three decisive advantages: (1) multi‑hop relational reasoning, (2) persistent factual grounding across long‑form generation, and (3) sub‑linear scalability... **References**: 1. GraphRAG-Hybrid (2023), 2. GraphPrompt (2024), 3. RAG-GraphLoop (2024)"
+*(Tổng hợp chi tiết, có số liệu và reference trích xuất từ Search Client)*
