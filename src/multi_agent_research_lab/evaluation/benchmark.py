@@ -19,5 +19,19 @@ def run_benchmark(run_name: str, query: str, runner: Runner) -> tuple[ResearchSt
     started = perf_counter()
     state = runner(query)
     latency = perf_counter() - started
-    metrics = BenchmarkMetrics(run_name=run_name, latency_seconds=latency)
+    
+    quality_score = 5.0
+    if state.final_answer and len(state.final_answer) > 200:
+        quality_score += 3.0
+    if state.sources:
+        quality_score += 2.0
+        
+    cost = 0.001 * state.iteration
+    
+    metrics = BenchmarkMetrics(
+        run_name=run_name, 
+        latency_seconds=latency,
+        estimated_cost_usd=cost,
+        quality_score=min(quality_score, 10.0)
+    )
     return state, metrics

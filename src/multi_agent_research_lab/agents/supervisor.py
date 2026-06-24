@@ -11,12 +11,19 @@ class SupervisorAgent(BaseAgent):
     name = "supervisor"
 
     def run(self, state: ResearchState) -> ResearchState:
-        """Update `state.route_history` with the next route.
+        """Update `state.route_history` with the next route."""
+        # Safety check to prevent infinite loops
+        if state.iteration >= 10:
+            state.record_route("__end__")
+            return state
 
-        TODO(student): Implement routing policy. Suggested steps:
-        - Inspect request, current notes, and missing fields.
-        - Choose one of: researcher, analyst, writer, done.
-        - Enforce max iterations and failure fallback.
-        """
-
-        raise StudentTodoError("TODO(student): implement SupervisorAgent.run")
+        if not state.research_notes:
+            state.record_route("researcher")
+        elif not state.analysis_notes:
+            state.record_route("analyst")
+        elif not state.final_answer:
+            state.record_route("writer")
+        else:
+            state.record_route("__end__")
+            
+        return state
